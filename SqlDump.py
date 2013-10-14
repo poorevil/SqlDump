@@ -8,6 +8,7 @@ Created on 2013-10-13
 @author: poorevil
 '''
 import json,sys,linecache,time
+from urllib import unquote
 
 def loadSourceFile(sourceFilePath,targetFilePath):
 
@@ -42,16 +43,23 @@ def loadSourceFile(sourceFilePath,targetFilePath):
         
 #         print '%d    %d'%(startOffset,endOffset+1)
         for offset in range(startOffset,endOffset+1):
+#             print unquote(linecache.getline(sourceFilePath, offset)).encode('latin1').decode('unicode_escape')
+            lineString = linecache.getline(sourceFilePath, offset)
+            lineString = lineString.replace('\\\\', '\\')
+#             print lineStr
 
-            jsonDict = json.loads(linecache.getline(sourceFilePath, offset))
-#             print jsonDict['devieModel'],jsonDict['mobileImsi']
-            
-            targetFile.write('''(null, "%s","%s")'''%(jsonDict['devieModel'],jsonDict['mobileImsi']))
-            
-            if offset == (endOffset):
-                targetFile.write(';\n')
-            else:
-                targetFile.write(',\n')
+            try:
+                jsonDict = json.loads(lineString)
+    #             print jsonDict['devieModel'],jsonDict['mobileImsi']
+                
+                targetFile.write('''(null, "%s","%s")'''%(jsonDict['devieModel'],jsonDict['mobileImsi']))
+                
+                if offset == (endOffset):
+                    targetFile.write(';\n')
+                else:
+                    targetFile.write(',\n')
+            except:
+                print '他妈的解不开这条：%s'%lineString
             
         
     print '总耗时：%f秒'%(time.time() - begin)
@@ -71,8 +79,13 @@ def wirteFile(sourceFilePath):
 
 
 if __name__ == '__main__': 
-    sourceFilePath = 'test.txt'  #sys.argv[1];
+    sourceFilePath = '01.txt'  #sys.argv[1];
     targetFilePath = 'target.sql'  #sys.argv[2];
     loadSourceFile(sourceFilePath,targetFilePath)
 
 #     wirteFile(sourceFilePath)
+
+#     str = '''{"devieModel":"\\"002\\"","mobileImsi":"460021687218908"}'''
+#     dict = json.loads(str)
+#     print dict['devieModel']
+    
