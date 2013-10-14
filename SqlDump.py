@@ -79,13 +79,13 @@ def wirteFile(sourceFilePath):
 
 
 if __name__ == '__main__': 
-    sourceFilePath = '01.txt'  #sys.argv[1];
-    targetFilePath = 'target.sql'  #sys.argv[2];
-    loadSourceFile(sourceFilePath,targetFilePath)
+#     sourceFilePath = '01.txt'  #sys.argv[1];
+#     targetFilePath = 'target.sql'  #sys.argv[2];
+#     loadSourceFile(sourceFilePath,targetFilePath)
 
 #     wirteFile(sourceFilePath)
 
-#     str = '''{"devieModel":"\\"002\\"","mobileImsi":"460021687218908"}'''
-#     dict = json.loads(str)
-#     print dict['devieModel']
+    str = '''{"devieModel":"迅驰版二代","mobileImsi":"460001620105358"}'''
+    dict = json.loads(str)
+    print dict['devieModel']
     
